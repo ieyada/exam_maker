@@ -1,0 +1,298 @@
+\documentclass[addpoints, 12pt]{exam}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+\usepackage{graphicx}%
+\usepackage{soul}%
+\usepackage{tikz}%
+\usepackage{booktabs}%
+\usepackage{color}%
+\newcommand{\smstr}{Fall 2023 }%
+\newcommand{\course}{TEST101 }%
+\newcommand{\examdate}{January 1, 2023 }%
+\newcommand{\exam}{Midterm }%
+\newcommand{\duration}{60 }%
+\newcommand{\tfscore}{1.0 }%
+\newcommand{\mcscore}{1.0 }%
+\newcommand{\totalexampoints}{10 }%
+\newcommand{\totaltfscore}{5 }%
+\newcommand{\totalmcscore}{5 }%
+\newcommand{\version}{B}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page Configuration%
+\extrawidth{0.65in}%
+\newcommand\HRule{\rule{\textwidth}{1pt}}%
+\usetikzlibrary{calc}%
+\pagestyle{headandfoot}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set the format for question and sub-question numbering%
+\renewcommand{\questionlabel}{\Alph{question}.}%
+\renewcommand\partlabel{\arabic{partno}.}%
+%
+%
+\begin{document}%
+\normalsize%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set header and footer%
+\header{\course}{}{\exam (Continued)}%
+\headrule%
+\footrule%
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Exam Cover%
+
+\begin{titlepage}
+	
+	
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		\draw[line width = 1pt] ($(current page.north west) + (0.5in,-0.5in)$) node at (0.65,0.85)  {\includegraphics[width=3cm]{images/ksu_masterlogo_colour_rgb.png}}  node at ($(current page.north) - (0, 0.4in)$) {\version} rectangle ($(current page.south east) + (-0.5in,0.5in)$);
+	\end{tikzpicture}
+	
+	
+	\begin{center}
+		\vspace{0.5cm}
+		\Huge
+		\textsc{\course\\
+			\vspace{0.5cm}
+			\normalsize \smstr\\
+			\vspace{1cm}
+			\Large
+			\uppercase{\exam}\\
+			\vspace{0.25cm}
+			\normalsize
+			\examdate \\
+			\vspace{1.25cm}
+			(\totalexampoints Points)}
+	\end{center}
+	
+	\vspace{1.5cm}
+	
+	\textbf{Instructions:}
+	\begin{enumerate}
+		\item You have \duration minutes to complete the test
+		\item For numerical questions, select the option that is the closest to your computation
+		\item \ul{Please read all questions carefully and make sure you understand the facts before you begin answering}
+		\item For multiple choice and true \& false questions, choose \ul{only one answer per question}. Questions having more than one choice will be discarded during grading 
+		\item The university's policy regarding academic dishonesty will be strictly enforced. You are bound by King Saud University's Honor Code
+		\item Good luck!
+	\end{enumerate}
+	
+	\vspace{1cm}
+	
+	\centering
+	I have read and understood all the instructions\\
+	\vspace{1cm}
+	\makebox[0.75\textwidth]{Name:\enspace\hrulefill}
+	
+	\vspace{1.25cm}
+	
+	\makebox[0.75\textwidth]{University ID:\enspace\hrulefill}
+	
+	
+	
+\end{titlepage}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{questions}
+	\bracketedpoints 
+
+
+\question[\totaltfscore] The following section contains declared statements, evaluate each statement whether it is true or false. Each evaluation attempt is worth \tfscore point.\\ 
+\begin{parts} 
+\filbreak 
+\part Example for a MC question
+ 
+\begin{oneparcheckboxes}
+\choice True
+\choice False
+% Key: B
+% Topic: unique topic name for ch1 hard
+% Difficulty: Difficult
+\end{oneparcheckboxes}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example for a MC question
+ 
+\begin{oneparcheckboxes}
+\choice True
+\choice False
+% Key: B
+% Topic: unique topic name for ch4 hard
+% Difficulty: Difficult
+\end{oneparcheckboxes}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example for a MC question
+ 
+\begin{oneparcheckboxes}
+\choice True
+\choice False
+% Key: B
+% Topic: unique topic name for ch3 hard
+% Difficulty: Difficult
+\end{oneparcheckboxes}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example for a TF question
+ 
+\begin{oneparcheckboxes}
+\choice True
+\choice False
+% Key: B
+% Topic: unique topic name for ch4 med
+% Difficulty: Medium
+\end{oneparcheckboxes}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example for a TF question
+ 
+\begin{oneparcheckboxes}
+\choice True
+\choice False
+% Key: B
+% Topic: unique topic name for ch2 med
+% Difficulty: Medium
+\end{oneparcheckboxes}
+\vspace{0.5cm}
+ 
+ 
+\end{parts} 
+ \clearpage 
+ 
+ \question[\totalmcscore] The following questions are multiple choice questions. Please choose the correct or the closest choice. Each question is worth \mcscore  point.\\ 
+\begin{parts} 
+ 
+ 
+ \filbreak 
+\part You manage a portfolio that has the following information:  \begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Stock & Weight & Alpha & Beta  \\ \midrule
+Taiba    & 10\%  & 1.25\% & 0.8 \\
+Rajhi    & 90\%  & 0.5\%  & 1.6 \\ \bottomrule
+\end{tabular}
+\end{center} The current t-bill rate is 2\%, and the market risk premium is 4\%. Using the index model, the expected return on this portfolio is:
+ 
+\begin{choices}
+\choice 12.24\%
+\choice 6.69\%
+\choice 3.79\%
+\choice 9.02\%
+% Key: D
+% Topic: Port Index ch3
+% Difficulty: Difficult
+\end{choices}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Most of the initial public offerings (IPOs) of equity securities are bought by \rule{1cm}{0.15mm}.
+ 
+\begin{choices}
+\choice individual investors
+\choice institutional investors
+\choice day traders
+\choice the firm's current shareholders
+% Key: B
+% Topic: underwriting ch4
+% Difficulty: Medium
+\end{choices}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Most of the initial public offerings (IPOs) of equity securities are bought by \rule{1cm}{0.15mm}.
+ 
+\begin{choices}
+\choice individual investors
+\choice institutional investors
+\choice day traders
+\choice the firm's current shareholders
+% Key: B
+% Topic: underwriting ch2
+% Difficulty: Medium
+\end{choices}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example of MC question using characters such as: \$ 100,000
+ 
+\begin{choices}
+\choice \$34,345
+\choice \$25,456
+\choice \$44,444
+\choice \$1,200
+% Key: D
+% Topic: random ques ch2
+% Difficulty: Easy
+\end{choices}
+\vspace{0.5cm}
+ 
+ 
+\filbreak 
+\part Example of MC question using characters such as: \$ 100,000
+ 
+\begin{choices}
+\choice \$34,345
+\choice \$25,456
+\choice \$44,444
+\choice \$1,200
+% Key: D
+% Topic: random ques ch4
+% Difficulty: Easy
+\end{choices}
+\vspace{0.5cm}
+ 
+ 
+\end{parts} 
+ \clearpage 
+ 
+ \end{questions} 
+ 
+\begin{center}
+	\LARGE
+	\textsc{\ul{Formulas}}
+\end{center}
+\vspace{0.75cm}
+$$E(R_{i}) = R_{f} + \beta_{i} \left[ E(R_{M}) - R_{f} \right], \,\,\,\,\, HPR = \frac{P_{1} - P_{0}+Div}{P_{0}}, \,\,\,\, \textrm{Arithmetic Average} = \frac{r_{1}+r_{2}+\dots +r_{n}}{n}$$
+
+$$\textrm{Geometric Average} = \left[ (1+r_{1})\times (1+r_{2}) \times \dots \times (1+r_{n})\right]^{1/n}-1$$
+
+$$\textrm{Dollar Weighted Return} = -1 + \frac{CF_{1}}{1+IRR} + \frac{CF_{2}}{(1+IRR)^{2}} + \dots + \frac{CF_{n}}{(1+IRR)^{n}} $$
+
+$$\textrm{APR} = \textrm{Per-period return} \times \textrm{ No. Periods per year}, \,\,\,\,\,\,\, EAR = \left[ 1 + \frac{APR}{n}\right]^{n}-1$$
+
+$$ APR = \left[ (EAR + 1)^{1/n} - 1 \right] \times n, \,\,\,\, EAR = e^{APR} - 1, \,\,\,\,\, APR = \ln (EAR + 1), \,\,\,\,\, 1+r_{Real} = \frac{1+r_{Nom}}{1+i}$$
+
+$$ A = \frac{E(R_{p}) - R_{f}}{\sigma^{2}_{p}}, \,\,\,\, Sharpe = \frac{E(R_{i})-R_{f}}{\sigma_{i}}, \,\,\,\,\, \sigma^{2}_{P} = (w_{A}\sigma_{A})^{2} + (w_{B}\sigma_{B})^{2} + 2(w_{A}\sigma_{A})(w_{B}\sigma_{B})\rho_{AB}$$
+
+$$\rho_{x,y} = \frac{Cov(x,y)}{\sigma_{x}\sigma{y}}, \,\,\,\, E(R_{C}) = y\times E(R_{p})+(1-y)\times R_{f}, \,\,\,\, \sigma_{C} = y \times \sigma_{p}, \,\,\,\,\, y =  \frac{E(R_{p}) - R_{f}}{A\sigma^{2}_{p}}$$
+
+$$ E(R_{p}) = \sum_{i=1}^{n}w_{i}\cdot E(R_{i}), \,\,\,\,  E(R_{i}) - R_{f} =\alpha_{i} + \beta_{i}[E(R_{M})-R_{f}], \,\,\,\,\, \sigma^{2}_{i} = \beta^{2}_{i}\sigma^{2}_{M}+ \sigma^{2}_{e,i}$$
+
+$$E(R_{i}) = R_{f} + \sum_{j=1}^{n}\beta_{j} \cdot Risk \, Premium_{j}, \,\,\,\, \textmd{R-Squared} = \frac{\beta^{2}_{i}\sigma^{2}_{M}}{\beta^{2}_{i}\sigma^{2}_{M}+ \sigma^{2}_{e,i}}, \,\,\,\,\,\,\,\,\, \sigma^{2}_{e_{p}} = \sum_{i=1}^{n}w^{2}_{i}\sigma^{2}_{e_{i}}$$
+
+$$\alpha_{p} = \sum_{i=1}^{n} w_{i}\cdot \alpha_{i}, \,\,\,\,\,\,\, \beta_{p} = \sum_{i=1}^{n}w_{i}\cdot \beta_{i}$$
+
+\vspace{1cm}
+\begin{center}
+	\gradetable[h][questions]
+\end{center}
+
+%
+\end{document}
