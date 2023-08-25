@@ -41,3 +41,6 @@ The documents and files in this repository was produced through this script usin
     - Midterm of Final: M
     - Exam Duration: 60
     - Exam Date: January 1, 2023
+
+
+![image](https://github.com/ieyada/exam_maker/assets/31297187/70ae6551-eb72-4ed2-a337-0a055ce57ebf)
