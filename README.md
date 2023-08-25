@@ -19,8 +19,8 @@ This script is designed to allow the user to make the following configurations t
 
 ## Requirements
 
-- Python 3.8 or above. I suggest you use a distribution system of Python for managing this work and any future work. One popular distribution system is [Anaconda](https://www.anaconda.com/). You can read more about Anaconda [here](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)).
-- Latex Software. You can download and read more about the Latex distribution [here](https://www.latex-project.org/). Make sure after downloading either type of Latex system that the [pdfTex package](https://www.tug.org/applications/pdftex/) is installed in your system.
+- Python 3.8 or above. I suggest you use a distribution manager for Python. One popular distribution system is [Anaconda](https://www.anaconda.com/). You can read more about Anaconda [here](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)).
+- Latex Software. You can download and read more about the Latex distribution [here](https://www.latex-project.org/). Make sure after downloading any Latex system that the [pdfTex package](https://www.tug.org/applications/pdftex/) is installed in your system.
 
 ## Example
 
