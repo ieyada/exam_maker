@@ -7,13 +7,10 @@ print("Loading necessary packages...")
 import sys, subprocess
 
 # Check pip and wheel is upgraded and ready to install packages:
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-'wheel'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-'--upgrade', 'pip'])
+#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wheel'])
+#subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
 
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
-'--upgrade', 'setuptools'])
+#subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'setuptools'])
 
 
 import os, re, pickle, random, fnmatch, regex, numpy as np, pandas as pd, pylatex as pl, copy
@@ -250,8 +247,17 @@ class exam_designer:
         # Exam type
         while True:
             input_exam = input("Exam Type: Midterm[M] or Final[F]? ")
-            if input_exam in ['M', 'F', 'm', 'f']:
-                self.exam = ((input_exam.lower()).replace('m', 'Midterm')).replace('f', 'Final')
+            if input_exam in ['M1', 'Midterm1', 'Midterm 1', 'm1', 'm 1', 'M 1', 'midterm1', 'midterm 1']:
+                self.exam = 'Midterm 1'
+                break;
+            elif input_exam in ['M2', 'Midterm2', 'Midterm 2', 'm2', 'm 2', 'M 2', 'midterm2', 'midterm 2']:
+                self.exam = 'Midterm 2'
+                break;
+            elif input_exam in ['M', 'Midterm', 'm', 'midterm', 'Mid', 'mid']:
+                self.exam = 'Midterm'
+                break;
+            elif input_exam in ['F', 'Final', 'f', 'final']:
+                self.exam = 'Final'
                 break;
             else:
                 print("Choose either M or F. Try again!")
@@ -372,7 +378,7 @@ class tex_writer:
 
             doc = pl.Document(documentclass='exam', document_options='addpoints, 12pt', fontenc=None, inputenc = None)
 
-            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color']
+            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern']
 
             for package in package_list:
                 doc.packages.append(Package(package))
@@ -416,8 +422,19 @@ class tex_writer:
             doc.append(NoEscape("\n"))
             doc.append(NoEscape(self.line))
             doc.append(NoEscape(r"% Exam Cover"))
+
+
             # Initiate the tex file for each version
-            file_name = the_inputs.course.replace(" ", "_") + "_" + the_inputs.exam[0] + "_" + version + ".tex"
+            if the_inputs.exam == 'Midterm 1':
+                naming = 'M1'
+            elif the_inputs.exam == 'Midterm 2':
+                naming = 'M2'
+            elif the_inputs.exam == 'Midterm':
+                naming = 'M'
+            else:
+                naming = 'F'
+
+            file_name = the_inputs.course.replace(" ", "") + "_" + naming + "_" + version + ".tex"
 
             # open a variable so we can add contents to the tex file
             output =  open(current_path/file_name, 'w', encoding="utf-8") 
@@ -443,7 +460,7 @@ class tex_writer:
                         output.write("\\begin{parts} \n")
 
                     elif q_type == 'MC':
-                        output.write("\\question[\\totalmcscore] The following questions are multiple choice questions. Please choose the correct or the closest choice. Each question is worth \\mcscore  point.\\\ ")
+                        output.write("\\question[\\totalmcscore] The following are multiple choice questions. Please choose the correct or the closest choice to your calculations. Each question is worth \\mcscore  point.\\\ ")
                         output.write('\n')
                         output.write("\\begin{parts} \n \n \n ")
 
