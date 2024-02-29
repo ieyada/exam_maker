@@ -378,7 +378,7 @@ class tex_writer:
 
             doc = pl.Document(documentclass='exam', document_options='addpoints, 12pt', fontenc=None, inputenc = None)
 
-            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern']
+            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'palatino']
 
             for package in package_list:
                 doc.packages.append(Package(package))
@@ -389,8 +389,7 @@ class tex_writer:
                 doc.set_variable(entry, (str(eval(self.the_inputs_var_name + "."+ entry)) + " "))
 
             # Additional Exam Configurations
-            score = str(int(fetched_ques[version]['TTF_Score']) + int(fetched_ques[version]['TMC_Score'])) + " "
-            doc.set_variable("totalexampoints" , score)
+            doc.set_variable("totalexampoints" , NoEscape(r'\numpoints\ '))
             doc.set_variable("totaltfscore" , fetched_ques[version]['TTF_Score'])
             doc.set_variable("totalmcscore" , fetched_ques[version]['TMC_Score'])
             doc.set_variable("version", version)
