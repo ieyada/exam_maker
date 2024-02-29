@@ -416,6 +416,7 @@ class tex_writer:
             doc.append(NoEscape(r"% Set header and footer"))
             doc.append(Command(command = 'header', arguments = NoEscape(r'\course'), extra_arguments=  ["", NoEscape(r"\exam (Continued)")] ))
             doc.append(Command(command = 'headrule'))
+            doc.append(Command(command = 'footer', arguments = NoEscape(r'{\iflastpage{End of exam}{Page \thepage\ of \numpages}'), extra_arguments=  ["", ""] ))
             doc.append(Command(command = 'footrule'))
 
             doc.append(NoEscape("\n"))
