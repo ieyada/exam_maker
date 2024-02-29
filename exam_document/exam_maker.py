@@ -271,7 +271,11 @@ class exam_designer:
                 print("The value has to be an integer! Try again!")
 
         # exam date
-        self.examdate = input("Exam date? (Ex., September 22, 2019 or Today) ")
+        input_date = input("Exam date? (Ex., September 22, 2019 or Today) ")
+        if input_date.lower() == 'today':
+            self.examdate = r"\today"
+        else:
+            self.examdate = input_date
 
 
 
@@ -370,7 +374,7 @@ class tex_writer:
 
         print("Writing documents...")
 
-        self.config_list = ['smstr', 'course', 'examdate', 'exam', 'duration', 'tfscore', 'mcscore']
+        self.config_list = ['smstr', 'course', 'exam', 'duration', 'tfscore', 'mcscore']
         self.line = r"%" * 70
         self.the_inputs_var_name = f'{the_inputs=}'.partition('=')[0]
 
@@ -389,6 +393,7 @@ class tex_writer:
                 doc.set_variable(entry, (str(eval(self.the_inputs_var_name + "."+ entry)) + " "))
 
             # Additional Exam Configurations
+            doc.set_variable("examdate" , NoEscape(the_inputs.examdate))
             doc.set_variable("totalexampoints" , NoEscape(r'\numpoints\ '))
             doc.set_variable("totaltfscore" , fetched_ques[version]['TTF_Score'])
             doc.set_variable("totalmcscore" , fetched_ques[version]['TMC_Score'])
@@ -416,7 +421,7 @@ class tex_writer:
             doc.append(NoEscape(r"% Set header and footer"))
             doc.append(Command(command = 'header', arguments = NoEscape(r'\course'), extra_arguments=  ["", NoEscape(r"\exam (Continued)")] ))
             doc.append(Command(command = 'headrule'))
-            doc.append(Command(command = 'footer', arguments = NoEscape(r'{\iflastpage{End of exam}{Page \thepage\ of \numpages}'), extra_arguments=  ["", ""] ))
+            doc.append(Command(command = 'footer', arguments = "", extra_arguments=  [NoEscape(r'\iflastpage{End of exam}{Page \thepage\ of \numpages}'), ""] ))
             doc.append(Command(command = 'footrule'))
 
             doc.append(NoEscape("\n"))
@@ -519,7 +524,7 @@ class tex_writer:
 
             file_name = file_name.replace(".tex", "")
 
-            doc.generate_pdf(filepath = current_path/file_name , clean_tex=False, compiler= 'pdflatex', compiler_args= ['--interaction=nonstopmode'], clean= True)
+            doc.generate_pdf(filepath = current_path/file_name , clean_tex=False, clean= True)
 
 
         answer_key(fetched_ques).to_excel(current_path/"answer_key.xlsx", index = False)
