@@ -403,7 +403,6 @@ class tex_writer:
             # Page Configuration
             doc.variables.append(NoEscape(self.line))
             doc.variables.append(NoEscape(r"% Page Configuration"))
-            doc.variables.append(Command('extrawidth', "0.65in"))
             doc.variables.append(Command(command = NoEscape(r"newcommand\HRule"), arguments = NoEscape(r"\rule{\textwidth}{1pt}")))
             doc.variables.append(Command('usetikzlibrary', "calc"))
             doc.variables.append(Command('pagestyle', "headandfoot"))
