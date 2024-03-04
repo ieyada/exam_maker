@@ -380,7 +380,7 @@ class tex_writer:
 
         for version in fetched_ques:
 
-            doc = pl.Document(documentclass='exam', document_options='addpoints, 12pt', fontenc=None, inputenc = None)
+            doc = pl.Document(documentclass='exam', document_options='addpoints, 11pt', fontenc=None, inputenc = None)
 
             package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'palatino']
 
@@ -459,12 +459,12 @@ class tex_writer:
                 if q_type in ['TF', 'MC']:
 
                     if q_type == 'TF':
-                        output.write("\\question[\\totaltfscore] The following section contains declared statements, evaluate each statement whether it is true or false. Each evaluation attempt is worth \\tfscore point.\\\ ")
+                        output.write("\\question[\\totaltfscore] The following section contains statements, evaluate each statement whether it is true or false. Each evaluation attempt is worth \\tfscore point.\\\ ")
                         output.write('\n')
                         output.write("\\begin{parts} \n")
 
                     elif q_type == 'MC':
-                        output.write("\\question[\\totalmcscore] The following are multiple choice questions. Please choose the correct or the closest choice to your calculations. Each question is worth \\mcscore  point.\\\ ")
+                        output.write("\\question[\\totalmcscore] The following section contains multiple choice questions. Please choose the correct (or the closest) choice per question. Each question is worth \\mcscore  point.\\\ ")
                         output.write('\n')
                         output.write("\\begin{parts} \n \n \n ")
 
