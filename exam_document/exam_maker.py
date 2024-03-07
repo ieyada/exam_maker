@@ -501,16 +501,24 @@ class tex_writer:
 
                     output.write("\\end{parts} \n \\clearpage \n \n ")
                 
-            
+            # End the question environment
             output.write("\\end{questions} \n ")
 
-            with open(current_path/"tex_parts"/"end.tex", 'r', encoding="utf-8") as final:
-                output.write(final.read())
+            # Add the formula sheet
+            output.write("\\begin{center} \n \\LARGE \n \\textsc{\\ul{Formulas}} \n \\end{center}")
 
+            # Add the formulas for each chapter
+            for chapter in the_inputs.chapters:
+                file = "ch" + str(chapter) +".tex"
+                with open(current_path/"tex_parts"/"formulas"/file, 'r', encoding="utf-8") as formula:
+                    output.write(formula.read())
+
+            # Add the last part of the document
+            output.write("\n \\vspace{1cm} \n \\begin{center} \n \\gradetable[h][questions] \n \\end{center}") 
+            
             
             # close the file
             output.close()
-
 
 
             # open the file
