@@ -6,30 +6,24 @@ print("Loading necessary packages...")
 # Loading necessary packages
 import sys, subprocess
 
-# Check pip and wheel is upgraded and ready to install packages:
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'wheel'])
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
 
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'setuptools'])
-
-
-import os, re, pickle, random, fnmatch, regex, numpy as np, pandas as pd, pylatex as pl, copy
+import os, numpy as np, pandas as pd, pylatex as pl
 from pathlib import Path
 from glob import glob
 from itertools import islice
 from itertools import cycle
 from pandas import DataFrame as df
-from pylatex.base_classes import Environment, CommandBase, Arguments, latex_object, Command
+from pylatex.base_classes import Environment, Arguments, Command, Options
 from pylatex.package import Package
 from pylatex.utils import NoEscape, italic, bold
 
-# Set the current working directory (cwd) of the python file to be the folder where this script exist
-#os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Set the directory path to the current working directory so it can be the reference point to use. ALWAYS USE '/' FOR THE DIRECTORY REGARDLESS OF THE OPERATING SYSTEM BEING USED. The Path package will take care of it. Note: for Mac users, if there is a space in a folder name, put it in a quote. Example: "Users/user/"+"Google Drive"+"/documents" '''
 dir_path = os.path.dirname(os.path.realpath(__file__))
 current_path = Path(dir_path)
 parent_path = current_path.parent
+resources_path = Path(current_path/"resources")
 
 print("Done loading packages!!!")
 
@@ -382,7 +376,7 @@ class tex_writer:
 
             doc = pl.Document(documentclass='exam', document_options='addpoints, 11pt', fontenc=None, inputenc = None)
 
-            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'palatino']
+            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'palatino', ]
 
             for package in package_list:
                 doc.packages.append(Package(package))
@@ -445,7 +439,7 @@ class tex_writer:
 
 
             # add the content from the tex file named beginning and edit it
-            with open(current_path/"tex_parts"/"beginning.tex", 'r', encoding="utf-8") as the_file:
+            with open(resources_path/"beginning.tex", 'r', encoding="utf-8") as the_file:
                 draft = the_file.read()
 
 
@@ -505,29 +499,47 @@ class tex_writer:
             output.write("\\end{questions} \n ")
 
             # Add the formula sheet
-            output.write("\\begin{center} \n \\LARGE \n \\textsc{\\ul{Formulas}} \n \\end{center}")
+            output.write("\\begin{center} \n \\LARGE \n \\textsc{\\ul{Formulas}} \n \\end{center} \n")
 
-            # Add the formulas for each chapter
-            for chapter in the_inputs.chapters:
-                file = "ch" + str(chapter) +".tex"
-                with open(current_path/"tex_parts"/"formulas"/file, 'r', encoding="utf-8") as formula:
-                    output.write(formula.read())
-
-            # Add the last part of the document
-            output.write("\n \\vspace{1cm} \n \\begin{center} \n \\gradetable[h][questions] \n \\end{center}") 
-            
             
             # close the file
             output.close()
 
 
-            # open the file
+            # open the raw text file
             with open(current_path/file_name, "r") as content:
                 raw_tex = content.read()
 
-
+            # dump the raw tex file to the doc object
             with doc.create(RawTexEnvironment(raw_tex)):
                 pass
+            
+
+            # Add the each chapter's formulas 
+            for chapter in the_inputs.chapters:
+                naming = "ch" + str(chapter)+".tex"
+                file_location = r"resources/formulas/" + naming
+                doc.append(Command('input', NoEscape(file_location)))
+
+
+            # Add the grading part at end of the document
+            doc.append(NoEscape("\n"))
+            doc.append(NoEscape(r"\vspace{1cm}"))
+            doc.append(NoEscape("\n"))
+            doc.append(NoEscape(r"\begin{center}"))
+            doc.append(NoEscape("\n"))
+            doc.append(NoEscape(r"\gradetable[h][questions]"))
+            doc.append(NoEscape("\n"))
+            doc.append(NoEscape(r"\end{center}"))
+            doc.append(Command('clearpage'))
+
+            # if this is a final exam, add the eval form at the end
+            if the_inputs.exam == 'Final':
+                doc.append(Command('includepdf',
+                                   options=Options(NoEscape(r"pages={-}"), NoEscape(r"pagecommand={}")),
+                                   arguments = NoEscape(r"resources/eval_form.pdf")))
+
+
 
             file_name = file_name.replace(".tex", "")
 
