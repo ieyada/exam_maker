@@ -376,11 +376,15 @@ class tex_writer:
 
             doc = pl.Document(documentclass='exam', document_options='addpoints, 11pt', fontenc=None, inputenc = None)
 
-            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'palatino', ]
+            package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'newpxtext', 'newpxmath']
 
             for package in package_list:
                 doc.packages.append(Package(package))
 
+            doc.packages.append((Package("background", options=["pages = some", "placement = center"])))
+
+            doc.append(NoEscape(self.line))
+            doc.append(NoEscape(r"% Exam Configuration"))
 
             # Replace some text in the tex file with the information about this exam from (the_inputs) object 
             for entry in self.config_list:
@@ -490,7 +494,7 @@ class tex_writer:
                             output.write("\\end{oneparcheckboxes}\n")
                         elif q_type == 'MC':
                             output.write("\\end{choices}\n")
-                        output.write("\\vspace{0.5cm}\n \n \n")
+                        output.write("\\vspace{0.65cm}\n \n \n")
 
 
                     output.write("\\end{parts} \n \\clearpage \n \n ")
