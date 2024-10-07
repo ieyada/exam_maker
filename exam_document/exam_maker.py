@@ -518,12 +518,13 @@ class tex_writer:
             with doc.create(RawTexEnvironment(raw_tex)):
                 pass
             
-
-            # Add the each chapter's formulas 
+            
+        
+            # Add the each chapter's formulas and make sure the font size is footnotesize for the formulas
             for chapter in the_inputs.chapters:
                 naming = "ch" + str(chapter)+".tex"
                 file_location = r"resources/formulas/" + naming
-                doc.append(Command('input', NoEscape(file_location)))
+                doc.append(pl.FootnoteText(Command('input', NoEscape(file_location))))
 
 
             # Add the grading part at end of the document
