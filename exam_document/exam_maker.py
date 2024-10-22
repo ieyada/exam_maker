@@ -374,7 +374,7 @@ class tex_writer:
 
         for version in fetched_ques:
 
-            doc = pl.Document(documentclass='exam', document_options='addpoints, 11pt', fontenc=None, inputenc = None)
+            doc = pl.Document(documentclass='exam', document_options='addpoints, 12pt', fontenc=None, inputenc = None)
 
             package_list = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages','lastpage', 'textcomp', 'lmodern', 'newpxtext', 'newpxmath']
 
@@ -383,14 +383,12 @@ class tex_writer:
 
             doc.packages.append((Package("background", options=["pages = some", "placement = center"])))
 
-            doc.append(NoEscape(self.line))
-            doc.append(NoEscape(r"% Exam Configuration"))
+            
+            ############## Setting Macros
 
-            # Replace some text in the tex file with the information about this exam from (the_inputs) object 
             for entry in self.config_list:
                 doc.set_variable(entry, (str(eval(self.the_inputs_var_name + "."+ entry)) + " "))
 
-            # Additional Exam Configurations
             doc.set_variable("examdate" , NoEscape(the_inputs.examdate))
             doc.set_variable("totalexampoints" , NoEscape(r'\numpoints\ '))
             doc.set_variable("totaltfscore" , fetched_ques[version]['TTF_Score'])
@@ -398,32 +396,52 @@ class tex_writer:
             doc.set_variable("version", version)
 
 
-            # Page Configuration
+            ########### Page Configuration
             doc.variables.append(NoEscape(self.line))
-            doc.variables.append(NoEscape(r"% Page Configuration"))
-            doc.variables.append(Command(command = NoEscape(r"newcommand\HRule"), arguments = NoEscape(r"\rule{\textwidth}{1pt}")))
+            doc.variables.append(NoEscape(r"% Page Configuration "))
+            doc.variables.append(NoEscape(self.line))
+            # A package for designing the box in the cover page
             doc.variables.append(Command('usetikzlibrary', "calc"))
+            # Have a header and footer
+
+            # Setting the margins
+            doc.variables.append(Command('extrawidth', "0.5in"))
+            doc.variables.append(Command('extraheadheight', "-0.25in"))
+            doc.variables.append(Command('extrafootheight', "-0.25in"))
+
+            ## Header and footer config
+            doc.variables.append(NoEscape(r"% Have a header and footer "))
             doc.variables.append(Command('pagestyle', "headandfoot"))
+            doc.variables.append(NoEscape(r"% change the ruler in the header "))
+            doc.variables.append(Command(command = NoEscape(r"newcommand\HRule"), arguments = NoEscape(r"\rule{\textwidth}{1pt}")))
+            doc.variables.append(NoEscape(r"% Set the design for header and footer "))
+            doc.variables.append(Command(command = 'header', arguments = NoEscape(r'\course'), extra_arguments=  ["", NoEscape(r"\exam (Continued)")] ))
+            doc.variables.append(Command(command = 'headrule'))
+            doc.variables.append(Command(command = 'footer', arguments = "", extra_arguments=  [NoEscape(r'\iflastpage{End of exam}{Page \thepage\ of \numpages}'), ""] ))
+            doc.variables.append(Command(command = 'footrule'))
 
-            # Question Numbering Format
+
+            ############# Question Numbering Format
             doc.variables.append(NoEscape(self.line))
-            doc.variables.append(NoEscape(r"% Set the format for question and sub-question numbering"))
-            doc.variables.append(Command(command = 'renewcommand', arguments = NoEscape(r'\questionlabel'), extra_arguments=  NoEscape(r"\Alph{question}.") ))
+            doc.variables.append(NoEscape(r"% Set the label and format for questions, sub-question "))
+            doc.variables.append(NoEscape(self.line))
+            doc.variables.append(NoEscape(r"% How question labels appear in the exam "))
+            doc.variables.append(Command(command = 'renewcommand', arguments = NoEscape(r'\thequestion'), extra_arguments=  NoEscape(r"\Roman{question}") ))
+            doc.variables.append(Command(command = 'renewcommand', arguments = NoEscape(r'\questionlabel'), extra_arguments=  NoEscape(r"\textbf{\thequestion)}") ))
             doc.variables.append(Command(command = r'renewcommand\partlabel', arguments = NoEscape(r"\arabic{partno}.")))
+            doc.variables.append(NoEscape(r"% How question labels appear in the grading table "))
+            doc.variables.append(Command('hqword', "Part"))
+            doc.variables.append(Command('hpword', "Grade"))
+            doc.variables.append(Command('hsword', "Score"))
+            doc.variables.append(Command('htword', "Total"))
 
 
 
-            # Exam header and footer configurations
-            doc.append(NoEscape(self.line))
-            doc.append(NoEscape(r"% Set header and footer"))
-            doc.append(Command(command = 'header', arguments = NoEscape(r'\course'), extra_arguments=  ["", NoEscape(r"\exam (Continued)")] ))
-            doc.append(Command(command = 'headrule'))
-            doc.append(Command(command = 'footer', arguments = "", extra_arguments=  [NoEscape(r'\iflastpage{End of exam}{Page \thepage\ of \numpages}'), ""] ))
-            doc.append(Command(command = 'footrule'))
-
+            ########### Begin writing the doc
             doc.append(NoEscape("\n"))
             doc.append(NoEscape(self.line))
-            doc.append(NoEscape(r"% Exam Cover"))
+            doc.append(NoEscape(r"% Exam Cover "))
+            doc.append(NoEscape(self.line))
 
 
             # Initiate the tex file for each version
@@ -457,12 +475,12 @@ class tex_writer:
                 if q_type in ['TF', 'MC']:
 
                     if q_type == 'TF':
-                        output.write("\\question[\\totaltfscore] The following section contains statements, evaluate each statement whether it is true or false. Each evaluation attempt is worth \\tfscore point.\\\ ")
+                        output.write("\\titledquestion{TF}[\\totaltfscore] \\textit{The following section contains statements, evaluate each statement whether it is true or false. Each evaluation attempt is worth \\tfscore point.}\\\ ")
                         output.write('\n')
                         output.write("\\begin{parts} \n")
 
                     elif q_type == 'MC':
-                        output.write("\\question[\\totalmcscore] The following section contains multiple choice questions. Please choose the correct (or the closest) choice per question. Each question is worth \\mcscore  point.\\\ ")
+                        output.write("\\titledquestion{MC}[\\totalmcscore] \\textit{The following section contains multiple choice questions. Please choose the correct (or the closest) choice per question. Each question is worth \\mcscore  point.}\\\ ")
                         output.write('\n')
                         output.write("\\begin{parts} \n \n \n ")
 
@@ -518,24 +536,14 @@ class tex_writer:
             with doc.create(RawTexEnvironment(raw_tex)):
                 pass
             
-            
-        
-            # Add the each chapter's formulas and make sure the font size is footnotesize for the formulas
+
+            # Add the each chapter's formulas 
             for chapter in the_inputs.chapters:
                 naming = "ch" + str(chapter)+".tex"
                 file_location = r"resources/formulas/" + naming
-                doc.append(pl.FootnoteText(Command('input', NoEscape(file_location))))
+                doc.append(Command('input', NoEscape(file_location)))
 
 
-            # Add the grading part at end of the document
-            doc.append(NoEscape("\n"))
-            doc.append(NoEscape(r"\vspace{1cm}"))
-            doc.append(NoEscape("\n"))
-            doc.append(NoEscape(r"\begin{center}"))
-            doc.append(NoEscape("\n"))
-            doc.append(NoEscape(r"\gradetable[h][questions]"))
-            doc.append(NoEscape("\n"))
-            doc.append(NoEscape(r"\end{center}"))
             doc.append(Command('clearpage'))
 
             # if this is a final exam, add the eval form at the end
