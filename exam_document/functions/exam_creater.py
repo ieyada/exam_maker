@@ -69,7 +69,7 @@ class exam_maker:
                 #############################################################################
                 # dumping the aggregated questions (and total score per type) to the main directory for each version
                 
-                self.question_dir[the_version][ques_type] = (fetched_ques.reset_index(drop=True)).dropna(axis = 0, thresh= 4).to_dict('index')
+                self.question_dir[the_version][ques_type] = (fetched_ques.sample(frac=1).reset_index(drop=True)).dropna(axis = 0, thresh= 4).to_dict('index')
                 total_score = len(list(self.question_dir[the_version][ques_type].keys()))
                 
                 self.question_dir[the_version]["T"+ str(ques_type) + "_Score"] = str(int(eval("the_inputs."+ ques_type.lower() + "score") * total_score )) + " "
