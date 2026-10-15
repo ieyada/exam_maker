@@ -6,7 +6,6 @@ and the window (exam_maker_gui.py) share it.'''
 
 from __future__ import annotations
 
-import csv
 import os
 import re
 import shutil
@@ -48,7 +47,7 @@ VERSION_LETTERS = string.ascii_uppercase
 MAX_VERSIONS = len(VERSION_LETTERS)
 
 PACKAGES = ['graphicx', 'soul', 'tikz', 'booktabs', 'color', 'pdfpages', 'lastpage', 'textcomp',
-            'lmodern', 'newpxtext', 'newpxmath', 'longtable', 'csvsimple']
+            'lmodern', 'newpxtext', 'newpxmath', 'longtable']
 LINE = "%" * 70
 
 # Files LaTeX leaves behind that are not needed once the PDF exists
@@ -286,6 +285,16 @@ FINAL_MESSAGE = [
 ]
 
 
+def sections_tex(sections) -> str:
+    '''The "Section:" line of the cover page, with a box to tick next to each section
+    ("" when there are no sections, so the line disappears).'''
+    if not sections:
+        return ""
+    box = r"\fbox{\rule{0pt}{0.7em}\hspace{0.7em}}"
+    choices = r"\hspace{2em plus 1em} ".join(rf"\mbox{{{box}\enspace {escape_latex(s)}}}" for s in sections)
+    return rf"\vspace*{{0.4in}}" "\n\n" rf"\parbox{{0.95\textwidth}}{{Section:\enspace {choices}}}"
+
+
 def questions_tex(questions: dict) -> str:
     '''The body of the exam: the cover page followed by one titled question per question type.'''
     parts = [(RESOURCES_DIR / "beginning.tex").read_text(encoding="utf-8")]
@@ -360,6 +369,7 @@ def build_document(config: ExamConfig, version: str, questions: dict) -> pl.Docu
     doc.set_variable("totaltfscore", NoEscape(exam_points(total_points["TF"]) + " "))
     doc.set_variable("totalmcscore", NoEscape(exam_points(total_points["MC"]) + " "))
     doc.set_variable("version", version)
+    doc.set_variable("sectionline", NoEscape(sections_tex(config.sections)))
 
     ########### Page Configuration
     doc.variables.append(NoEscape(LINE))
@@ -502,10 +512,6 @@ def generate_exams(config: ExamConfig, bank: pd.DataFrame, log=print, seed=None)
     if missing:
         warnings.append(f"No formula file for chapter(s) {', '.join(map(str, missing))} "
                         f"(expected resources/formulas/ch<N>.tex); they are left out of the formula sheet.")
-
-    # list of sections, one per line
-    with open(DOC_DIR / "sections.csv", "w", newline="") as csv_file:
-        csv.writer(csv_file).writerows([section] for section in config.sections)
 
     key_file = DOC_DIR / config.answer_key_name
     answer_key(exams).to_excel(key_file, index=False)

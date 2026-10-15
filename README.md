@@ -34,6 +34,7 @@ If you prefer answering the questions in the terminal, run `python exam_maker.py
 
 - The generated document will have a front page that includes the logo of King Saud University and some instructions. You can edit all this information in the file: `exam_document/resources/beginning.tex`
 - The formulas students may need for the exam are in `exam_document/resources/formulas/ch<N>.tex`, one file per chapter. The files of the selected chapters are combined into one two-column long table at the end of the exam. Write each row as `$formula$ & $formula$ \`. Files still written as `$$formula$$` lines also work: each formula becomes a full-width row.
+- The sections you enter (separated by spaces) are listed on the front page under *University ID*, each with a box for students to tick. Leave it empty to hide the line.
 - For a Final exam, a closing message and the evaluation form (`exam_document/resources/eval_form.pdf`) are added at the end.
 - Each section's total must be a whole or half number of points (e.g. 5 or 2.5), because that is what the LaTeX `exam` class supports.
 
