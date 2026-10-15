@@ -85,7 +85,17 @@ def input_exam_specs(bank):
     input_question_counts(config, "MC", "Multiple Choice")
 
     config.course = input("Course Number: (Ex. FINA363) ").strip()
-    config.semester = input("Academic Year? (Ex., Fall 2022) ").strip()
+    while True:
+        semester = input(f"Semester? ({', '.join(core.SEMESTERS)}) ").strip().capitalize()
+        if semester in core.SEMESTERS:
+            config.semester = semester
+            break
+        print(f"Choose one of: {', '.join(core.SEMESTERS)}. Try again!")
+    default_year = core.current_academic_year()
+    year = input(f"First year of the academic year? (Ex., {default_year} for {default_year}-{default_year + 1}; press Enter for {default_year}) ").strip()
+    while year and not (year.isdigit() and len(year) == 4):
+        year = input("Please enter a 4-digit year (Ex., 2026) or press Enter: ").strip()
+    config.academic_year = int(year) if year else default_year
     config.exam_type = input_exam_type()
     config.duration = ask_number("Exam duration: (in minutes)? ", minimum=1)
     date = input("Exam date? (Ex., September 22, 2019 or Today) ").strip()

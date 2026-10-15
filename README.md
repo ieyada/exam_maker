@@ -20,24 +20,26 @@ From the `exam_document` folder, start the window:
     python exam_maker_gui.py
 
 1. Choose the question bank Excel file (**Browse…**). The window shows how many questions and chapters it contains.
-2. Fill in the exam details and tick the chapters to draw from.
+2. Fill in the exam details (course, exam type, semester, academic year, and the exam date from the calendar) and select the chapters to draw from.
 3. Enter how many questions of each type and difficulty you want per version. Under each box the window shows how many distinct topics are available in the selected chapters, and turns red when you ask for more than that.
-4. Press **Generate exams**. The `.tex` and `.pdf` file of every version and the answer key (`<course>_<exam>_answer_key.xlsx`) are written to the `exam_document` folder.
+4. Press **Generate exams**. The `.tex` and `.pdf` file of every version and the answer key are written to the `exam_document` folder.
 
-The window remembers your last settings (in `exam_maker_settings.json`).
+Files are named `Course_ExamType_AcademicYear_Semester_Version`, e.g. `FIN363_M_AY26-27_Fall_B.pdf` (answer key: `FIN363_M_AY26-27_Fall_answer_key.xlsx`), so exams from previous years and semesters are never overwritten. The window shows the file names before you generate and asks before replacing existing exams.
+
+The window remembers your last settings (in `exam_maker_settings.json`) and has a dark mode.
 
 If you prefer answering the questions in the terminal, run `python exam_maker.py` instead. Both use the same code (`exam_core.py`).
 
 ## Important Notes
 
 - The generated document will have a front page that includes the logo of King Saud University and some instructions. You can edit all this information in the file: `exam_document/resources/beginning.tex`
-- The formulas students may need for the exam are in `exam_document/resources/formulas/ch<N>.tex`, one file per chapter. Only the files of the selected chapters are added at the end of the exam.
+- The formulas students may need for the exam are in `exam_document/resources/formulas/ch<N>.tex`, one file per chapter. The files of the selected chapters are combined into one two-column long table at the end of the exam. Write each row as `$formula$ & $formula$ \`. Files still written as `$$formula$$` lines also work: each formula becomes a full-width row.
 - For a Final exam, a closing message and the evaluation form (`exam_document/resources/eval_form.pdf`) are added at the end.
 - Each section's total must be a whole or half number of points (e.g. 5 or 2.5), because that is what the LaTeX `exam` class supports.
 
 ## Requirements
 
-- Python 3.8 or above with the packages `pandas`, `numpy`, `openpyxl` and `pylatex` (`pip install pandas numpy openpyxl pylatex`). `tkinter`, used for the window, comes with Python. I suggest you use a distribution manager for Python. One popular distribution system is [Anaconda](https://www.anaconda.com/). You can read more about Anaconda [here](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)).
+- Python 3.8 or above with the packages `pandas`, `numpy`, `openpyxl` and `pylatex` (`pip install pandas numpy openpyxl pylatex`). The window also needs `ttkbootstrap` (`pip install ttkbootstrap`). I suggest you use a distribution manager for Python. One popular distribution system is [Anaconda](https://www.anaconda.com/). You can read more about Anaconda [here](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)).
 - Latex Software. You can download and read more about the Latex distribution [here](https://www.latex-project.org/). Make sure after downloading any Latex system that the [pdfTex package](https://www.tug.org/applications/pdftex/) is installed in your system. If `latexmk` is available it is used; otherwise `pdflatex` is run directly.
 
 ## Example

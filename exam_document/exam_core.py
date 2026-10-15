@@ -8,11 +8,13 @@ from __future__ import annotations
 
 import csv
 import os
+import re
 import shutil
 import string
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -41,6 +43,7 @@ TEXT_COLUMNS = ["Question", "A", "B", "C", "D", "Answer", "Topic"]
 
 # Exam name -> short code used in the file names
 EXAM_TYPES = {"Midterm": "M", "Midterm 1": "M1", "Midterm 2": "M2", "Final": "F"}
+SEMESTERS = ("Fall", "Spring", "Summer")
 VERSION_LETTERS = string.ascii_uppercase
 MAX_VERSIONS = len(VERSION_LETTERS)
 
@@ -58,6 +61,22 @@ NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 ####################################################################################################
 ####################### Configuration ##############################################################
 ####################################################################################################
+
+def current_academic_year(today: date | None = None) -> int:
+    '''First calendar year of the current academic year (it starts in August): Oct 2026 -> 2026, Mar 2027 -> 2026'''
+    today = today or date.today()
+    return today.year if today.month >= 8 else today.year - 1
+
+
+def academic_year_code(first_year: int) -> str:
+    '''2026 -> "AY26-27"'''
+    return f"AY{first_year % 100:02d}-{(first_year + 1) % 100:02d}"
+
+
+def format_date(value: date) -> str:
+    '''date(2026, 12, 3) -> "December 3, 2026"'''
+    return f"{value:%B} {value.day}, {value.year}"
+
 
 def format_points(value: float) -> str:
     '''1.0 -> "1", 0.5 -> "0.5", 2.25 -> "2.25"'''
@@ -80,7 +99,8 @@ def exam_points(value: float) -> str:
 class ExamConfig:
     '''Everything needed to design an exam.'''
     course: str = ""
-    semester: str = ""
+    semester: str = "Fall"            # one of SEMESTERS
+    academic_year: int = field(default_factory=current_academic_year)   # first year, e.g. 2026 for 2026-2027
     exam_type: str = "Midterm"
     duration: int = 60
     exam_date: str = ""               # empty means \today
@@ -103,12 +123,24 @@ class ExamConfig:
     def version_letters(self) -> str:
         return VERSION_LETTERS[:self.versions]
 
+    @property
+    def semester_title(self) -> str:
+        '''Shown on the cover page, e.g. "Fall Semester, AY 2026-2027"'''
+        return f"{self.semester} Semester, AY {self.academic_year}-{self.academic_year + 1}"
+
+    @property
+    def name_prefix(self) -> str:
+        '''Course_ExamType_AcademicYear_Semester, e.g. FIN363_M_AY26-27_Fall, so files of other years
+        and semesters are never overwritten.'''
+        return (f"{self.course.replace(' ', '')}_{self.exam_code}_"
+                f"{academic_year_code(self.academic_year)}_{self.semester}")
+
     def file_stem(self, version: str) -> str:
-        return f"{self.course.replace(' ', '')}_{self.exam_code}_{version}"
+        return f"{self.name_prefix}_{version}"
 
     @property
     def answer_key_name(self) -> str:
-        return f"{self.course.replace(' ', '')}_{self.exam_code}_answer_key.xlsx"
+        return f"{self.name_prefix}_answer_key.xlsx"
 
 
 ####################################################################################################
@@ -153,6 +185,8 @@ def validate(config: ExamConfig, bank: pd.DataFrame) -> list:
         errors.append("Enter the course name/number.")
     if config.exam_type not in EXAM_TYPES:
         errors.append(f"Exam type must be one of: {', '.join(EXAM_TYPES)}.")
+    if config.semester not in SEMESTERS:
+        errors.append(f"Semester must be one of: {', '.join(SEMESTERS)}.")
     if not 1 <= config.versions <= MAX_VERSIONS:
         errors.append(f"The number of versions must be between 1 and {MAX_VERSIONS}.")
     if config.duration <= 0:
@@ -277,7 +311,33 @@ def questions_tex(questions: dict) -> str:
 def formula_files(chapters) -> list:
     '''Formula files of the selected chapters that exist and are not empty.'''
     files = [FORMULAS_DIR / f"ch{chapter}.tex" for chapter in sorted(chapters)]
-    return [f for f in files if f.is_file() and f.stat().st_size > 0]
+    return [f for f in files if f.is_file() and f.read_text(encoding="utf-8").strip()]
+
+
+# Same layout as resources/formulas/all_formulas.tex: two columns, caption on the first page and a
+# "continue" note at the bottom of every page but the last
+FORMULA_TABLE_START = [
+    r"\newpage",
+    r"{\setlength{\tabcolsep}{2pt}",
+    r"\renewcommand{\arraystretch}{1.5}",
+    r"\centering",
+    r"\begin{longtable}{ll}",
+    r"\caption{\large \textsc{Formulas}} \\ \endfirsthead",
+    r"\multicolumn{2}{r}{{\textit{\footnotesize Continue on next page}}} \\ \endfoot",
+    r"\endlastfoot",
+]
+FORMULA_TABLE_END = r"\end{longtable}}"
+
+
+def formula_rows(file: Path) -> str:
+    '''The table rows of one chapter's formula file.
+    Files written as table rows ("formula & formula \\") are \\input as they are. Files still written
+    as display math ("$$formula$$" lines) get one full-width row per formula.'''
+    text = file.read_text(encoding="utf-8")
+    if "$$" not in text:
+        return f"\\input{{{file.relative_to(DOC_DIR).as_posix()}}}"
+    formulas = re.findall(r"\$\$(.+?)\$\$", text, flags=re.DOTALL)
+    return "\n".join(rf"\multicolumn{{2}}{{c}}{{$\displaystyle {f.strip()}$}} \\" for f in formulas)
 
 
 def build_document(config: ExamConfig, version: str, questions: dict) -> pl.Document:
@@ -289,7 +349,7 @@ def build_document(config: ExamConfig, version: str, questions: dict) -> pl.Docu
 
     ############## Setting Macros (the trailing space keeps a space after the macro in the text)
     total_points = {t: config.total(t) * config.points[t] for t in QUESTION_TYPES}
-    doc.set_variable("smstr", config.semester + " ")
+    doc.set_variable("smstr", config.semester_title + " ")
     doc.set_variable("course", config.course + " ")
     doc.set_variable("exam", config.exam_type + " ")
     doc.set_variable("duration", f"{config.duration} ")
@@ -343,14 +403,10 @@ def build_document(config: ExamConfig, version: str, questions: dict) -> pl.Docu
     doc.append(NoEscape("\n" + LINE + "\n% Exam Cover \n" + LINE))
     doc.append(NoEscape(questions_tex(questions)))
 
-    ##### Formula sheet. The formula files hold display math ($$...$$), which cannot sit inside table
-    ##### cells, so they are placed on their own page(s) under a heading.
+    ##### Formula sheet: one long table holding the formulas of every selected chapter
     formulas = formula_files(config.chapters)
     if formulas:
-        doc.append(NoEscape(r"\newpage"))
-        doc.append(NoEscape(r"\begin{center} \LARGE \textsc{\ul{Formulas}} \end{center}"))
-        for file in formulas:
-            doc.append(Command('input', NoEscape(file.relative_to(DOC_DIR).as_posix())))
+        doc.append(NoEscape("\n".join(FORMULA_TABLE_START + [formula_rows(f) for f in formulas] + [FORMULA_TABLE_END])))
 
     # if this is a final exam, add the eval form at the end
     if config.exam_type == 'Final':

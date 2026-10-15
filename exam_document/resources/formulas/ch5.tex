@@ -1,8 +1,34 @@
-$$HPR = \frac{P_{1} - P_{0}+Div}{P_{0}}, \textrm{Arithmetic Average} = \frac{r_{1}+r_{2}+\dots +r_{n}}{n}$$
-$$\textrm{Geometric Average} = \left[ (1+r_{1})\times (1+r_{2}) \times \dots \times (1+r_{n})\right]^{1/n}-1$$
-$$\textrm{Dollar Weighted Return} = -1 + \frac{CF_{1}}{1+IRR} + \frac{CF_{2}}{(1+IRR)^{2}} + \dots + \frac{CF_{n}}{(1+IRR)^{n}}$$
-$$\textrm{APR} = \textrm{Per-period return} \times \textrm{ No. Periods per year}, \,\,\,\,\,\,\, EAR = \left[ 1 + \frac{APR}{n}\right]^{n}-1$$
-$$ APR = n \times \left[ (EAR + 1)^{1/n} - 1 \right], \,\,\,\, EAR = e^{APR} - 1, \,\,\,\,\, APR = \ln (EAR + 1), \,\,\,\,\, 1+r_{Real} = \frac{1+r_{Nom}}{1+i}$$
-$$R = r +E(i), \,\,\,\,\, E(R_{i}) = \sum_{n=1}^{N} R_{i,n}\times P(n), \,\,\,\,\,\, \sigma_{i}^{2} = \sum_{n=1}^{N} P(n)\times\left[R_{i,n} - E(R_{i})\right]^{2}$$
-$$Standardized \,\, R_{i} = \frac{R_{i}-E(R_{i})}{\sigma_{i}}, \,\,\,\,\,\, R_{i} = E(R_{i}) + (Standardized \,\, R_{i} \times \sigma_{i}), \,\,\, y =  \frac{E(R_{p}) - R_{f}}{A\sigma^{2}_{p}}$$
-$$ A = \frac{E(R_{p}) - R_{f}}{\sigma^{2}_{p}}, \,\,\,\, Sharpe = \frac{E(R_{i})-R_{f}}{\sigma_{i}}, \,\,\,\,\,\,\,  E(R_{C}) = y\times E(R_{p})+(1-y)\times R_{f}, \,\,\,\, \sigma_{C} = y \times \sigma_{p}$$
+$HPR = \frac{(P_{t=T} - P_{t=0}) + Income}{P_{t=0}}$ & $ \text{Arith. Avrg.} = \frac{r_{1}+r_{2}+\dots +r_{n}}{n}$ \\
+
+
+
+$\text{HPR} = \text{Cap. Gain} \left[\frac{P_{t=T} - P_{t=0}}{P_{t=0}} \right] + \text{Div. Yield} \left[\frac{Income}{P_{t=0}}\right]$ &  $\text{Geo. Avg.} = \left[ (1+r_{1} \times \dots \times (1+r_{n})\right]^{1/n}-1$ \\
+
+
+
+$\textrm{APR} = HPR \times n$ & $EAR = \left[ 1 + HPR\right]^{n}-1$\\
+$ APR = n \times \left[ (1 + EAR)^{1/n} - 1 \right]$ & $ EAR = e^{r_{CC}} - 1$ \\
+
+$r_{CC} = \ln(1+EAR)$ & $1+r_{real} = \frac{1+r_{rom}}{1+i}$ \\
+
+$\text{Total Return} = e^{T \times r_{CC}}$ & $ \sigma = \sqrt{\sigma^{2}}$\\
+$ r_{real} \approx r_{nom} - i$ & $r_{nom} = r_{real} +E(i)$\\
+
+
+$ r_{nom}(1-t) - i = [(r_{real} + i)(1-t)] - i = r_{real}(1-t) - it$ & $E(R) = \sum_{s=1}^{N} P(s)\cdot R(s)$ \\
+
+$\sigma^{2} = \sum_{s=1}^{N} P(s)\cdot\left[R(s) - E(R)\right]^{2}$ & $Sharpe = \frac{E(R)-R_{f}}{\sigma}$ \\
+
+$ \bar{R} = \sum_{s=1}^{N} P(s)\cdot R(s) = \frac{1}{n}\sum_{s=1}^{N}R(s)$ & $\text{Cumulative R.}  = \left[ (1+R_{1})\times \dots \times (1+R_{n})\right] - 1$ \\
+
+$\text{Cumulative R.} = e^{\left[\ln(1+R_{1}) + \dots + \ln(1+R_{n})\right]} - 1$ & $ E(Geo. \: Avg.) = E(Arith. \: Avg.) - \frac{\sigma^{2}}{2}$ \\
+
+
+$CAGR = \left[ \frac{Ending \,\, Value}{Beginning \,\, Value}\right]^{1/T} -1$ & $ \hat{\sigma} = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} \left[R_{i} - \bar{R}\right]^{2}}$ \\
+
+$Skew = Average\left[\frac{(R-\bar{R})^{3}}{\hat{\sigma}^{3}}\right]$ & $ Kurtosis = Average\left[\frac{(R-\bar{R})^{4}}{\hat{\sigma}^{4}}\right] -3$ \\
+
+
+$VaR(1\%, normal \,\, dist.) = Mean - 2.326 \sigma$ & $VaR(5\%, normal \,\, dist.) = Mean - 1.645 \sigma $ \\
+
+$\sigma_{LPSD} = \sigma_{d} = \sqrt{\frac{1}{N-1} \sum_{t=1}^N \min[0, R_t - MAR]^{2}}$ & $ Sortino \,\, Ratio = \frac{E(R_{p}) - R_{f}}{\sigma_{LPSD}}$ \\

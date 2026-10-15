@@ -1,0 +1,61 @@
+\documentclass[addpoints, 12pt]{exam}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+\usepackage{graphicx}%
+\usepackage{soul}%
+\usepackage{tikz}%
+\usepackage{booktabs}%
+\usepackage{color}%
+\usepackage{pdfpages}%
+\usepackage{longtable}%
+\usepackage{newpxtext}%
+\usepackage{newpxmath}%
+\usetikzlibrary{calc}%
+\extrawidth{0.5in}%
+\extraheadheight{{-}0.25in}%
+\extrafootheight{{-}0.25in}%
+% Have a header and footer %
+\pagestyle{headandfoot}%
+% change the ruler in the header %
+\newcommand\HRule{\rule{\textwidth}{1pt}}%
+% Set the design for header and footer %
+\header{test}{}{test (Continued)}%
+\headrule%
+\footer{}{\iflastpage{End of exam}{Page \thepage\ of \numpages}}{}%
+\footrule%
+
+%
+%
+\begin{document}%
+
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.5}
+\centering
+	\begin{longtable}{ll}	
+		\caption{\large \textsc{Formulas}} \\
+		\endfirsthead
+		 \multicolumn{2}{r}{{\textit{\footnotesize Continue on next page}}} \\
+		\endfoot
+
+		\endlastfoot
+		
+			\input{ch8.tex}%
+			\input{ch9.tex}%
+			\input{ch10.tex}%
+			\input{ch14.tex}%
+\end{longtable}		
+		
+%\begin{tabular}{ll}
+%	\toprule
+%	\input{ch5.tex}%
+%	\input{ch6.tex}%
+%	\input{ch7.tex}%
+%\end{tabular}
+%\end{table}
+
+
+
+
+
+\end{document}

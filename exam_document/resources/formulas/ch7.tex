@@ -1,3 +1,11 @@
-$$E(R_{M}) - R_{f} = \hat{A}\sigma^{2}_{M}, \,\,\,\,\,\,\,\, E(R_{i}) = R_{f} + \beta_{i}\left[E(R_{M} - R_{f})\right]$$
-$$E(R_{i}) = R_{f} + \beta_{1} \cdot Factor_{1} + \beta_{2} \cdot Factor_{2} + \dots +  \beta_{N} \cdot Factor_{N}$$
-$$R_{i} = R_{f} + \beta_{M}\left[E(R_{M} - R_{f})\right] + \beta_{HML}\left[E(R_{H} - R_{L})\right] + \beta_{SMB}\left[E(R_{S} - R_{B})\right]$$
+$r_{p} = w_{A} r_{A} + w_{B}r_{B}$ & $ 
+\sigma^{2}_{p} = w^{2}_{A} \sigma^{2}_{A} + w^{2}_{B} \sigma^{2}_{B} + 2\cdot w_{A} \cdot w_{B}\cdot \sigma_{A,B}$ \\
+
+$\rho_{AB} = \frac{\sigma_{A,B}}{\sigma_{A}\sigma_{B}}$ & $ \sigma^{2}_{p} = w^{2}_{A} \sigma^{2}_{A} + w^{2}_{B} \sigma^{2}_{B} + 2w_{A}w_{B} \sigma_{A} \sigma_{B} \rho_{AB}$ \\
+
+$\sigma_{p} = w_{A} \sigma_{A} + w_{B} \sigma_{B}$ & $ \sigma_{p} = w_{A} \sigma_{A} - w_{B} \sigma_{B}$ \\
+
+
+$w_{A} [\sigma_{A} + \sigma_{B}] = \sigma_{B} $ & $E(r_{p}) = \sum_{i=1}^{N} w_{i} \cdot E(r_{i}) $\\
+
+$ Cov(i,i) = Var(i) = \sigma_{i,i} = \sigma^{2}_{i}$ & $\sigma^{2}_{p} = \sum_{j=1}^{N} w_{j} \sum_{i=1}^{N} w_{i}\sigma_{i,j} $ \\
