@@ -155,7 +155,7 @@ def load_question_bank(path) -> pd.DataFrame:
         raise ValueError(f"The question bank is missing the column(s): {', '.join(missing)}. "
                          "Use Exmple_Ques_Bank.xlsx as a template.")
 
-    # Drop empty rows, then normalise the text so small typos ("tf", "easy ") do not lose questions
+    # Drop empty rows, then normalize the text so small typos ("tf", "easy ") do not lose questions
     bank = bank[REQUIRED_COLUMNS].dropna(subset=["Question", "Answer", "Type", "Chapter", "Topic", "Difficulty"])
     try:
         bank["Chapter"] = bank["Chapter"].astype(int)

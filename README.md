@@ -50,7 +50,7 @@ Use `Exmple_Ques_Bank.xlsx` as a template. It needs the columns **Question, A, B
 - `Type`: `TF` or `MC`. `Difficulty`: `Difficult`, `Medium` or `Easy`. `Chapter`: a whole number.
 - `Topic`: questions on the same topic are alternatives to each other. Each version takes at most one question per topic and type, so the number of distinct topics limits how many questions can be drawn.
 
-## Customising the documents
+## Customizing the documents
 
 - **Front page**: `exam_document/resources/beginning.tex` holds the King Saud University logo, the instructions, the name/ID/section lines and the grading table.
 - **Formulas**: `exam_document/resources/formulas/ch<N>.tex`, one file per chapter. Each line is a row of the two-column formula table, written as `$formula$ & $formula$ \\`. A formula that is too wide for half the page can span both columns with `\multicolumn{2}{l}{$formula$} \\`. Chapters without a file (or with an empty one) are left out.
