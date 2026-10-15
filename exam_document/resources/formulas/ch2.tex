@@ -1,7 +1,11 @@
-$$Discount \,\, from \,\, Face \,\, Value = r_{BD} \times \frac{n}{360}, \quad Price = Face\,\, Value \times \left[1 - (r_{BD} \times \frac{n}{360})\right]$$
-$$r_{BD} = \frac{Face \,\, Value - P}{Face \,\, Value}\times \frac{360}{n},\quad r_{BEY} = \frac{Face \,\, Value - P}{P}\times \frac{365}{n}$$
-$$r_{EAY} = \left[1 + \frac{Face \,\, Value - P}{P} \right]^{\frac{365}{n}}-1, \quad Price \,\, Weighted \,\, Index_{t} = \frac{\sum_{n=1}^{N}Price_{n,t}}{Divisor_{t}}$$
-$$Market \,\, Value \,\, Weighted \,\, Index \,\, Return_{t} = \frac{\sum_{n=1}^{N}Market \,\, Value_{n,t}}{\sum_{n=1}^{N}Market \,\, Value_{n,t-1}}-1$$
-$$Market \,\, Value_{n,t} = Stock \,\, Price_{n,t} \times No. \,\, Shares_{n,t}$$
-$$Market \,\, Value \,\, Weighted \,\, Index \,\, Return_{t} = \sum_{n=1}^{N} W_{n,t-1}\times R_{n,t}$$
-$$W_{n,t-1} = \frac{Market \,\, Value_{n,t-1}}{\sum_{n=1}^{N}Market \,\, Value_{n,t-1}}, \quad Equal \,\, Weighted \,\, Index \,\, Return = \frac{1}{n}\times \sum_{n=1}^{N}R_{n,t}$$
+$\text{Discount from Face Value} = r_{BD} \times \frac{n}{360}$ & $\text{Price} = \text{Face Value} \times \left[1 - \left(r_{BD} \times \frac{n}{360}\right)\right]$ \\
+
+$r_{BD} = \frac{\text{Face Value} - P}{\text{Face Value}} \times \frac{360}{n}$ & $r_{BEY} = \frac{\text{Face Value} - P}{P} \times \frac{365}{n}$ \\
+
+$r_{EAY} = \left[1 + \frac{\text{Face Value} - P}{P}\right]^{\frac{365}{n}} - 1$ & $\text{Price Weighted Index}_{t} = \frac{\sum_{n=1}^{N} \text{Price}_{n,t}}{\text{Divisor}_{t}}$ \\
+
+$\text{Market Value}_{n,t} = \text{Stock Price}_{n,t} \times \text{No. Shares}_{n,t}$ & $\text{Equal Weighted Index Return} = \frac{1}{n} \times \sum_{n=1}^{N} R_{n,t}$ \\
+
+\multicolumn{2}{l}{$\text{Market Value Weighted Index Return}_{t} = \frac{\sum_{n=1}^{N} \text{Market Value}_{n,t}}{\sum_{n=1}^{N} \text{Market Value}_{n,t-1}} - 1 = \sum_{n=1}^{N} W_{n,t-1} \times R_{n,t}$} \\
+
+$W_{n,t-1} = \frac{\text{Market Value}_{n,t-1}}{\sum_{n=1}^{N} \text{Market Value}_{n,t-1}}$ & \\

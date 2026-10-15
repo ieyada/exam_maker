@@ -344,7 +344,8 @@ def formula_rows(file: Path) -> str:
     as display math ("$$formula$$" lines) get one full-width row per formula.'''
     text = file.read_text(encoding="utf-8")
     if "$$" not in text:
-        return f"\\input{{{file.relative_to(DOC_DIR).as_posix()}}}"
+        # the % stops the line break from adding a space at the start of the next row
+        return f"\\input{{{file.relative_to(DOC_DIR).as_posix()}}}%"
     formulas = re.findall(r"\$\$(.+?)\$\$", text, flags=re.DOTALL)
     return "\n".join(rf"\multicolumn{{2}}{{c}}{{$\displaystyle {f.strip()}$}} \\" for f in formulas)
 
